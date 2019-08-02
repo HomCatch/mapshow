@@ -1,0 +1,12 @@
+@import "./reset.scss";
+@import "./element-variables.scss";
+@import "./transition.scss";
+@import "./font.scss";
+@import "./font1.scss";
+// @import "./font2.scss";
+.box {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .1) !important;
+    background: #fff !important;
+    padding: 10px;
+    border-top: 3px solid #d2d6de !important;
+}

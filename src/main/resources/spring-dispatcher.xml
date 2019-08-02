@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context" xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                          http://www.springframework.org/schema/beans/spring-beans.xsd
+                          http://www.springframework.org/schema/context
+                          http://www.springframework.org/schema/context/spring-context.xsd
+                          http://www.springframework.org/schema/mvc
+                          http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                          http://www.springframework.org/schema/task
+                          http://www.springframework.org/schema/task/spring-task-3.2.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                          http://www.springframework.org/schema/tx 
+                          http://www.springframework.org/schema/tx/spring-tx.xsd 
+                          http://www.springframework.org/schema/aop 
+                          http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 初始化默认的转换器 -->
+	<mvc:annotation-driven validator="validator" />
+
+	<!--注解包扫描 -->
+	<context:component-scan base-package="com.iswater">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<!-- 配置视图协商的属性 -->
+	<bean id="contentNegotiationManagerFactoryBean" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<!-- 设置为true以忽略对Accept Header的支持 -->
+		<property name="ignoreAcceptHeader" value="true" />
+		<!-- true，开启扩展名支持，false关闭支持 -->
+		<property name="favorPathExtension" value="false" />
+		<!-- 用于开启 /userinfo/123?format=json的支持 -->
+		<property name="favorParameter" value="true" />
+		<!-- 在没有扩展名和参数时即: "/user/1" 时的默认展现形式 -->
+		<property name="defaultContentType" value="text/html" />
+		<!-- 参数值至mimeType的映射,即/rest?format=json json是key，application/json就是value暂时只支持json和xml -->
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json" />
+				<entry key="xml" value="application/xml" />
+				<entry key="html" value="text/html" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- 配置视图协商解析器 -->
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="order" value="2" />
+		<property name="contentNegotiationManager" ref="contentNegotiationManagerFactoryBean" />
+		<property name="viewResolvers">
+			<list>
+				<!-- 配置视图信息 -->
+				<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+					<property name="prefix" value="/" />
+					<property name="suffix" value=".jsp" />
+				</bean>
+				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<!-- json转换 -->
+				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+			</list>
+		</property>
+	</bean>
+
+	<!--指定错误信息 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:language_message" />
+		<property name="fileEncodings" value="utf-8" />
+		<property name="cacheSeconds" value="120" />
+		<property name="useCodeAsDefaultMessage" value="false" />
+	</bean>
+
+	<!--指定hibernate为JSR303实现类 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+	<!--adaptor配置类 -->
+	<bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+		<property name="conversionService" ref="conversionService" />
+		<property name="validator" ref="validator" />
+		<property name="propertyEditorRegistrar" ref="dateConverter" />
+	</bean>
+
+	<bean class="com.iswater.common.bean.DateConvert" id="dateConverter" />
+
+	<!-- ①注册ConversionService 可自定义 -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	</bean>
+
+	<!--默认的web容器Servlet，用于静态资源访问 -->
+	<mvc:default-servlet-handler />
+
+	<!-- json mapper -->
+	<bean id="mapper" class="org.codehaus.jackson.map.ObjectMapper" />
+
+	<!-- 配置静态资源目录 -->
+	<!-- <mvc:resources mapping="/resources/**" location="/resources/" /> <mvc:resources mapping="/upload/**" location="/upload/" /> -->
+
+	<!-- 使用annotation定义事务，对标注了@Transactional注解的bean进行处理，以织入事务管理切面. 默认情况下，自动使用名称为transactionManager的事务管理器。 proxy-target-class为true，表示spring将通过创建子类来代理业务类，需要在类路径中添加CGLib.jar类库。 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+	
+    <mvc:interceptors>  
+            <!-- 多个拦截器，顺序执行 -->  
+            <mvc:interceptor>  
+                <mvc:mapping path="/**"/>  
+                <mvc:exclude-mapping path="/js/**"/>
+            	<mvc:exclude-mapping path="/css/**"/>
+            	<mvc:exclude-mapping path="/img/**"/>
+                <bean class="com.iswater.interceptor.LoginInterceptor"></bean>  
+            </mvc:interceptor>  
+     </mvc:interceptors>      	
+	
+</beans>

@@ -1,0 +1,186 @@
+body, html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+
+#allmap {
+	width: 100%;
+	height: 100%;
+}
+
+#search {
+	width: 300px;
+	position: absolute;
+	z-index: 1;
+	float: right;
+	top: 15px;
+	left: 56px;
+	background-color: rgb(85, 104, 248);
+	text-align: left;
+}
+.se1{
+	width: 100%;
+  /* padding: 5px; */
+  font-size: 16px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+}
+.input1{
+	font-size: 14px;
+  padding: 5px;
+  height:30px;
+}
+.inbtn1{
+	height: 30px;
+  border: none;
+  border-radius: 5px;
+  margin-top: -33px;
+  width: 60;
+  background: #fffff;
+  background-color: #2C5594;
+  color: #fff;
+}
+
+
+#content {
+	width: 300px;
+	position: absolute;
+	z-index: 1;
+	float: right;
+	top: 80px;
+	left: 56px;
+	vertical-align: middle;
+	display: none;
+	background-color: white;
+	max-height: 600px;
+	overflow: auto;
+	position: absolute;
+	vertical-align: middle;
+	position: absolute;
+}
+
+.flip {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	background-color: rgb(85, 104, 248);
+	width: 300px;
+	position: absolute;
+	z-index: 0;
+	float: right;
+	top: 56px;
+	left: 56px;
+	vertical-align: middle;
+	height: 25px;
+	position: absolute;
+	text-align: right;
+	vertical-align: middle;
+	position: absolute;
+	cursor: pointer;
+}
+
+.arrow-down {
+	width: 0;
+	height: 0;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid #f00;
+	font-size: 0;
+	line-height: 0;
+}
+
+.sum {
+	width: 280px;
+	position: absolute;
+	float: right;
+	top: 5px;
+	right: 5px;
+	padding: 0px;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 1.5em;
+	color: white;
+	border: 1px solid rgb(153, 153, 153);
+	overflow: auto;
+	background-color: #192025;
+}
+
+.sum1 {
+	width: 280px;
+	position: absolute;
+	float: right;
+	top: 5px;
+	right: 5px;
+	padding: 5px;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 1.5em;
+	color: #fff;
+	/* border: 1px solid rgb(153, 153, 153);*/
+	overflow: auto;
+	background-color: #8F929D;
+	    box-shadow: 1px 1px 50px rgba(0,0,0,.3);
+}
+
+#mapversion {
+	position: absolute;
+	float: right;
+	bottom: 5px;
+	right: 5px;
+	color: white;
+}
+
+.sumtable {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	color: white;
+	line-height: 1.5;
+	font-size: 14.5px;
+}
+
+
+
+.sumtable td {
+	padding: 0;
+	margin: 0;
+	border-top: 1px solid rgb(153, 153, 153);
+}
+
+.popupContent {
+	width: 81%;
+	height: 80px;
+	margin: auto;
+	padding: 0;
+	color: black;
+	line-height: 1.5;
+	font-size: 14.5px;
+	border: 1px solid rgb(153, 153, 153);
+}
+
+.popupContent td {
+	padding: 0;
+	margin: 0;
+	border-top: 1px solid rgb(153, 153, 153);
+}
+
+.insidediv {
+	width: 100%;
+	height: 100%;
+}
+
+.tiph4 {
+	margin: 0 0 5px 0;
+	padding: 0.2em 0;
+	font-size: 20px;
+}
+
+.tipp {
+	margin: 0;
+	line-height: 1.5;
+	font-size: 13px;
+	text-indent: 2em
+}

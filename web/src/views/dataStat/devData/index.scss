@@ -1,0 +1,222 @@
+#devDesc {
+  .top {
+    width: 100%;
+    display: flex;
+
+    .activeDev {
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+      margin-right: 10px;
+      background-color: #fff;
+      height: 180px;
+      padding: 20px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+      .left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        h3 {
+          font-weight: bold;
+          color: #666;
+        }
+
+        p {
+          font-weight: bold;
+          color: #666;
+          font-size: 36px;
+          line-height: 36px;
+          margin: 10px 0;
+        }
+
+        .lifting {
+          span {
+            color: #999;
+
+            &:first-child {
+              color: #e74c3c;
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+
+      .right {
+        width: 40px;
+        height: 40px;
+        background-color: #dcdefc;
+        border-radius: 50%;
+      }
+    }
+
+    .isLine {
+      flex: 2;
+      height: 180px;
+      background-color: #fff;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      padding: 20px 0;
+      box-sizing: border-box;
+
+      .left,
+      .center,
+      .right {
+        flex: 1;
+        height: 100%;
+      }
+
+      .left,
+      .right {
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        h3 {
+          font-weight: bold;
+          color: #666;
+        }
+
+        p {
+          font-weight: bold;
+          color: #00cf97;
+          font-size: 36px;
+          line-height: 36px;
+        }
+
+        span {
+          color: #00cf97;
+        }
+      }
+    }
+  }
+
+  .bottom {
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+
+    .activeFilter,
+    .expireFilter,
+    .brokeDev {
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+      background-color: #fff;
+      height: 180px;
+      padding: 20px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+      .left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        h3 {
+          font-weight: bold;
+          color: #666;
+        }
+
+        p {
+          font-weight: bold;
+          color: #666;
+          font-size: 36px;
+          line-height: 36px;
+          margin: 10px 0;
+        }
+
+        .lifting {
+          span {
+            color: #999;
+
+            &:first-child {
+              color: #e74c3c;
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+
+      .right {
+        width: 40px;
+        height: 40px;
+        background-color: #dcdefc;
+        border-radius: 50%;
+      }
+    }
+
+    .expireFilter {
+      margin: 0 10px;
+    }
+  }
+
+  .trendMap {
+    margin: 10px 0;
+    background-color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+    .title {
+      display: flex;
+      justify-content: space-between;
+
+      h3 {
+        font-weight: bold;
+        color: #666;
+      }
+
+      .date {
+        display: flex;
+        align-items: center;
+
+        ul {
+          display: flex;
+
+          li {
+            margin-right: 10px;
+
+            a {
+              text-decoration: none;
+              color: #4d83d4;
+              font-size: 14px;
+              &.active{
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .detailData {
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+    .title {
+      display: flex;
+      justify-content: space-between;
+
+      h3 {
+        font-weight: bold;
+        color: #666;
+      }
+
+      a {
+        text-decoration: none;
+        color: #4d83d4;
+        font-size: 14px;
+      }
+    }
+  }
+}

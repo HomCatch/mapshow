@@ -1,0 +1,39 @@
+// 搜索框项目
+export const searchItems = [
+#foreach($field in ${table.fields})
+#if(!${field.keyIdentityFlag})
+    #if(${field.propertyName}!="createTime")
+      { 
+        label: "${field.comment}",
+        value: "${field.propertyName}",
+        type: "input",
+        placeholder: "${field.comment}",
+        },
+    #else
+        {
+            label: '开始时间',
+            value: 'startTime',
+            type: 'datetime'
+        },
+        {
+        label: '结束时间',
+        value: 'endTime',
+        type: 'datetime'
+    },
+        #end
+#end
+#end
+]
+
+// 功能按钮
+export const funcs = ['新增', '修改', '删除'];
+
+// 表格项目
+export const tableColumns = [
+#foreach($field in ${table.fields})
+#if(!${field.keyIdentityFlag})   
+    { label: "${field.comment}", value: "${field.propertyName}"},
+#end 
+#end
+]
+

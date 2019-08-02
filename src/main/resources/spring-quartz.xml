@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                          http://www.springframework.org/schema/beans/spring-beans.xsd
+                          http://www.springframework.org/schema/context
+                          http://www.springframework.org/schema/context/spring-context.xsd
+                          http://www.springframework.org/schema/aop
+                          http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- spring自动任务调度器配置 -->  
+  
+  
+    <!-- 要调用的工作类 --> 
+	<bean id="waterQualityJob" class="com.iswater.map.task.WaterQualityJob"/>
+	<bean id="deviceMonitorJob" class="com.iswater.map.task.DeviceMonitorJob"/>
+	
+	
+	
+	<!-- 任务配置列表 -->  
+	<bean id="job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="waterQualityJob" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="monitorJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->  
+		<property name="targetObject" ref="deviceMonitorJob" />
+		<!-- 调用类中的方法 --> 
+		<property name="targetMethod" value="execute" />
+		<!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	
+	
+	<!-- 触发器配置  时间指定 -->  
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="job" />
+		<property name="cronExpression" value="0/30 * * * * ?" />
+	</bean>
+	
+	<bean id="cronTrigger1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="monitorJob" />
+		<property name="cronExpression" value="0 0 10-19 * * ? *" />
+	</bean>
+	
+	
+	
+	<!-- 总管理类 -->  
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!-- 触发器列表    -->
+				<ref bean="cronTrigger" />
+				<ref bean="cronTrigger1" />
+			</list>
+		</property>
+		<property name="autoStartup" value="true" />
+	</bean>
+</beans>
+
+
+
+
+

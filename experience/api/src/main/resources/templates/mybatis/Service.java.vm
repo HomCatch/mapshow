@@ -1,0 +1,21 @@
+package ${package.Service};
+
+import com.baomidou.mybatisplus.service.IService;
+import ${package.Entity.split(".modules.${entity.toLowerCase()}.entity")[0]}.modules.untils.PageUtils;
+import ${package.Entity.split(".modules.${entity.toLowerCase()}.entity")[0]}.modules.untils.query.QueryVo;
+import ${package.Entity}.${entity};
+
+import java.util.Map;
+
+/**
+ *
+ * $!{table.comment} ${entity}Service层
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+public interface ${entity}Service extends IService<${entity}> {
+
+    PageUtils queryPage(QueryVo queryVo);
+}
+

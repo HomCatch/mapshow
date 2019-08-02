@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iswater.map.mapper.RegionMapper">
+	<resultMap id="BaseResultMap" type="com.iswater.map.pojos.Region">
+		<id column="region_id" property="regionId" jdbcType="INTEGER" />
+		<result column="region_name" property="regionName" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="tds" property="tds" jdbcType="INTEGER" />
+		<result column="ph" property="ph" jdbcType="REAL" />
+		<result column="color" property="color" jdbcType="REAL" />
+		<result column="trt" property="trt" jdbcType="REAL" />
+		<result column="tbdt" property="tbdt" jdbcType="REAL" />
+		<result column="purify_tds" property="purifyTds" jdbcType="INTEGER" />
+		<result column="purify_ph" property="purifyPh" jdbcType="REAL" />
+		<result column="purify_color" property="purifyColor" jdbcType="REAL" />
+		<result column="purify_trt" property="purifyTrt" jdbcType="REAL" />
+		<result column="purify_tbdt" property="purifyTbdt" jdbcType="REAL" />
+		<result column="amount" property="amount" jdbcType="REAL" />
+		<result column="purify_amount" property="purifyAmount" jdbcType="REAL" />
+		<result column="device_x" property="deviceX" jdbcType="DECIMAL" />
+		<result column="device_y" property="deviceY" jdbcType="DECIMAL" />
+		<result column="region_desc" property="regionDesc" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		region_id, region_name, update_time, tds, ph, color, trt, tbdt, purify_tds, purify_ph,
+		purify_color, purify_trt, purify_tbdt, amount,purify_amount, device_x, device_y, region_desc
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from region
+		where region_id = #{regionId,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from region
+	</select>
+	
+	
+	<select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 
+		<include refid="Base_Column_List" /> 
+		from region WHERE region_name LIKE CONCAT('%',#{regionName},'%' )
+	</select>
+	
+	<select id="selectSumAll" resultMap="BaseResultMap">
+		SELECT SUM(tds)/34 tds,SUM(purify_tds)/34 purify_tds,SUM(ph)/34 ph,SUM(purify_ph)/34 purify_ph,
+		ROUND(SUM(color)/34,4) color,ROUND(SUM(purify_color)/34,4) purify_color,ROUND(SUM(trt)/34,4) trt,ROUND(SUM(purify_trt)/34,4) purify_trt,
+		ROUND(SUM(tbdt)/34,4) tbdt,ROUND(SUM(purify_tbdt)/34,4) purify_tbdt,ROUND(SUM(amount)/34,4) amount,ROUND(SUM(purify_amount)/34,4) purify_amount  FROM region
+	</select>
+	
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from region
+		where region_id = #{regionId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.iswater.map.pojos.Region">
+		insert into region (region_name, update_time,
+		tds, ph, color, trt,
+		tbdt, purify_tds, purify_ph,
+		purify_color, purify_trt, purify_tbdt,
+		amount,purify_amount, device_x, device_y,
+		region_desc)
+		values (#{regionName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+		#{tds,jdbcType=INTEGER}, #{ph,jdbcType=REAL}, #{color,jdbcType=REAL}, #{trt,jdbcType=REAL},
+		#{tbdt,jdbcType=REAL}, #{purifyTds,jdbcType=INTEGER}, #{purifyPh,jdbcType=REAL},
+		#{purifyColor,jdbcType=REAL},
+		#{purifyTrt,jdbcType=REAL}, #{purifyTbdt,jdbcType=REAL},
+		#{amount,jdbcType=REAL},#{purifyAmount,jdbcType=REAL}, #{deviceX,jdbcType=DECIMAL}, #{deviceY,jdbcType=DECIMAL},
+		#{regionDesc,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.iswater.map.pojos.Region">
+		insert into region
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="regionName != null">
+				region_name,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="tds != null">
+				tds,
+			</if>
+			<if test="ph != null">
+				ph,
+			</if>
+			<if test="color != null">
+				color,
+			</if>
+			<if test="trt != null">
+				trt,
+			</if>
+			<if test="tbdt != null">
+				tbdt,
+			</if>
+			<if test="purifyTds != null">
+				purify_tds,
+			</if>
+			<if test="purifyPh != null">
+				purify_ph,
+			</if>
+			<if test="purifyColor != null">
+				purify_color,
+			</if>
+			<if test="purifyTrt != null">
+				purify_trt,
+			</if>
+			<if test="purifyTbdt != null">
+				purify_tbdt,
+			</if>
+			<if test="amount != null">
+				amount,
+			</if>
+			<if test="purifyAmount != null">
+				purify_amount,
+			</if>
+			<if test="deviceX != null">
+				device_x,
+			</if>
+			<if test="deviceY != null">
+				device_y,
+			</if>
+			<if test="regionDesc != null">
+				region_desc,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="regionName != null">
+				#{regionName,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tds != null">
+				#{tds,jdbcType=INTEGER},
+			</if>
+			<if test="ph != null">
+				#{ph,jdbcType=REAL},
+			</if>
+			<if test="color != null">
+				#{color,jdbcType=REAL},
+			</if>
+			<if test="trt != null">
+				#{trt,jdbcType=REAL},
+			</if>
+			<if test="tbdt != null">
+				#{tbdt,jdbcType=REAL},
+			</if>
+			<if test="purifyTds != null">
+				#{purifyTds,jdbcType=INTEGER},
+			</if>
+			<if test="purifyPh != null">
+				#{purifyPh,jdbcType=REAL},
+			</if>
+			<if test="purifyColor != null">
+				#{purifyColor,jdbcType=REAL},
+			</if>
+			<if test="purifyTrt != null">
+				#{purifyTrt,jdbcType=REAL},
+			</if>
+			<if test="purifyTbdt != null">
+				#{purifyTbdt,jdbcType=REAL},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=REAL},
+			</if>
+			<if test="purifyAmount != null">
+				#{purifyAmount,jdbcType=REAL},
+			</if>
+			<if test="deviceX != null">
+				#{deviceX,jdbcType=DECIMAL},
+			</if>
+			<if test="deviceY != null">
+				#{deviceY,jdbcType=DECIMAL},
+			</if>
+			<if test="regionDesc != null">
+				#{regionDesc,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.iswater.map.pojos.Region">
+		update region
+		<set>
+			<if test="regionName != null">
+				region_name = #{regionName,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tds != null">
+				tds = #{tds,jdbcType=INTEGER},
+			</if>
+			<if test="ph != null">
+				ph = #{ph,jdbcType=REAL},
+			</if>
+			<if test="color != null">
+				color = #{color,jdbcType=REAL},
+			</if>
+			<if test="trt != null">
+				trt = #{trt,jdbcType=REAL},
+			</if>
+			<if test="tbdt != null">
+				tbdt = #{tbdt,jdbcType=REAL},
+			</if>
+			<if test="purifyTds != null">
+				purify_tds = #{purifyTds,jdbcType=INTEGER},
+			</if>
+			<if test="purifyPh != null">
+				purify_ph = #{purifyPh,jdbcType=REAL},
+			</if>
+			<if test="purifyColor != null">
+				purify_color = #{purifyColor,jdbcType=REAL},
+			</if>
+			<if test="purifyTrt != null">
+				purify_trt = #{purifyTrt,jdbcType=REAL},
+			</if>
+			<if test="purifyTbdt != null">
+				purify_tbdt = #{purifyTbdt,jdbcType=REAL},
+			</if>
+			<if test="amount != null">
+				amount = #{amount,jdbcType=REAL},
+			</if>
+			<if test="purifyAmount != null">
+				purify_amount = #{purifyAmount,jdbcType=REAL},
+			</if>
+			<if test="deviceX != null">
+				device_x = #{deviceX,jdbcType=DECIMAL},
+			</if>
+			<if test="deviceY != null">
+				device_y = #{deviceY,jdbcType=DECIMAL},
+			</if>
+			<if test="regionDesc != null">
+				region_desc = #{regionDesc,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where region_id = #{regionId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.iswater.map.pojos.Region">
+		update region
+		set region_name = #{regionName,jdbcType=VARCHAR},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		tds = #{tds,jdbcType=INTEGER},
+		ph = #{ph,jdbcType=REAL},
+		color = #{color,jdbcType=REAL},
+		trt = #{trt,jdbcType=REAL},
+		tbdt = #{tbdt,jdbcType=REAL},
+		purify_tds = #{purifyTds,jdbcType=INTEGER},
+		purify_ph = #{purifyPh,jdbcType=REAL},
+		purify_color = #{purifyColor,jdbcType=REAL},
+		purify_trt = #{purifyTrt,jdbcType=REAL},
+		purify_tbdt =
+		#{purifyTbdt,jdbcType=REAL},
+		amount = #{amount,jdbcType=REAL},
+		purify_amount = #{purifyAmount,jdbcType=REAL},
+		device_x = #{deviceX,jdbcType=DECIMAL},
+		device_y = #{deviceY,jdbcType=DECIMAL},
+		region_desc = #{regionDesc,jdbcType=VARCHAR}
+		where region_id = #{regionId,jdbcType=INTEGER}
+	</update>
+</mapper>

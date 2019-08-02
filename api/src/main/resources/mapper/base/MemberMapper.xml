@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaohe.mapshow.modules.member.dao.MemberDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xiaohe.mapshow.modules.member.entity.Member">
+        <id column="id" property="id"/>
+        <result column="company_id" property="companyId"/>
+        <result column="username" property="username"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+	        id, company_id AS companyId, username, create_time AS createTime
+    </sql>
+
+    <!-- 查询用户的所有权限 -->
+    <select id="queryDbNameByUserName" resultType="String" parameterType="String">
+		select db.db_name from company co
+			INNER JOIN db_info db on co.db_id = db.id
+			INNER JOIN member m on co.id = m.company_id
+		where m.username = #{username}
+	</select>
+
+</mapper>

@@ -1,0 +1,191 @@
+package ${package.Controller};
+
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
+import ${package.Entity.split(".modules.${entity.toLowerCase()}.entity")[0]}.config.aspect.LogOperate;
+import ${package.Entity.split(".modules.${entity.toLowerCase()}.entity")[0]}.utils.CommonResult;
+import ${package.Entity.split(".modules.${entity.toLowerCase()}.entity")[0]}.utils.PageBean;
+import ${package.Entity.split(".modules.${entity.toLowerCase()}.entity")[0]}.utils.Result;
+import ${package.Entity.split(".modules.${entity.toLowerCase()}.entity")[0]}.utils.StringUtil;
+import ${package.Service}.${entity}Service;
+import ${package.Entity}.${entity};
+import ${package.Entity}.Query${entity};
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+/**
+ *
+ * $!{table.comment} ${entity}Controller层
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@RestController
+@RequestMapping(value = "/${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}s")
+public class ${table.controllerName} {
+    private static Logger log = LoggerFactory.getLogger(${table.controllerName}.class);
+    @Autowired
+    private ${entity}Service ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Service;
+
+
+/**
+* 保存对象<br/>
+*
+* @param ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)} 对象
+*/
+     @PostMapping
+     @RequiresPermissions("sys:${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}:save")
+     @LogOperate(description = "新增${entity}")
+	public Result save(@Validated @RequestBody ${entity} ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}) {
+        Result result =new Result();
+        try{
+		    ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Service.save(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)});
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return result.error(2001, "新增失败");
+        }
+        return result.ok();
+	}
+
+/**
+* 更新
+*
+* @param ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}
+* @return
+*/
+    @PutMapping(value = "/{id}")
+    @RequiresPermissions("sys:${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}:update")
+    @LogOperate(description = "更新${entity}")
+    public Result updateBanner( @Validated @RequestBody ${entity} ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}) {
+        Result result =new Result();
+        try{
+            boolean exists = ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Service.exists(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}.getId());
+            if (!exists) {
+            return result.error(2002, "修改失败，未找到");
+            }
+            ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Service.save(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)});
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return result.error(2002, "修改失败");
+        }
+        return result.ok();
+     }
+
+/**
+* 通过id集合删除对象
+*
+* @param ids id集合
+*/
+	@DeleteMapping(value = "/{id}")
+    @RequiresPermissions("sys:${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}:delete")
+    @LogOperate(description = "删除${entity}")
+	public Result deleteById(@PathVariable("id") String ids) {
+        Result result =new Result();
+        try{
+             ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Service.deleteInBatch(StringUtil.stringToIntegerList(ids));
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return result.error(2003, "删除失败");
+        }
+        return result.ok();
+	}
+
+
+/**
+* 通过id查找对象
+*
+* @param id id
+* @return ${entity} 对象
+*/
+	@GetMapping(value = "/{id}")
+    @RequiresPermissions("sys:${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}:info")
+	public Result findById(@PathVariable("id") Integer id) {
+        CommonResult result=new CommonResult();
+        try {
+            result.setDatas(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Service.findById(id));
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return result.error(2004, "不存在");
+        }
+        return result.ok();
+	}
+
+/**
+* 分页查询
+*
+* @return Page<${entity}> 对象
+*/
+	@PostMapping(value = "/pages")
+    @RequiresPermissions("sys:${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}:list")
+	public Result findByPage(@RequestBody Query${entity} query${entity}) {
+
+        CommonResult result=new CommonResult();
+        try {
+            int page = query${entity}.getPage();
+            int pageSize = query${entity}.getPageSize();
+            Page<${entity}> all =  ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Service.findAll(page-1, pageSize,query${entity});
+            PageBean<${entity}> pageBean = new PageBean<>();
+            if (all == null||0==all.getTotalElements()) {
+            pageBean.setList(new ArrayList<>());
+            result.setDatas(pageBean);
+            return result.ok();
+            }
+            pageBean.setCurPage(page);
+            pageBean.setItemCounts((int)all.getTotalElements());
+            pageBean.setPageSize(pageSize);
+            pageBean.setList(all.getContent());
+            result.setDatas(pageBean);
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error(e.getMessage());
+            return result.error(2005, "查询出错");
+        }
+        return result.ok();
+	}
+/**
+* EXCEL导出
+*
+* @param response re
+* @param ids      id逗号隔开
+* @throws IOException IO异常
+*/
+@GetMapping(value = "/export/{id}")
+public void prjExport(HttpServletResponse response, @PathVariable("id") String ids) throws IOException {
+        OutputStream os = null;
+        try {
+        //获取数据库数据
+        Workbook workbook;
+        List<${entity}> list = ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Service.findAllById(StringUtil.stringToIntegerList(ids));
+        workbook = ExcelExportUtil.exportExcel(new ExportParams("${table.comment}表", "${table.name}"),
+	${entity}.class, list);
+        //保存在本地
+        String filename = "ter_daily_report" + System.currentTimeMillis();
+        os = response.getOutputStream();
+        // 清空输出流
+        response.reset();
+        response.setHeader("Content-disposition", "attachment; filename=" + filename + ".xls");
+        response.setContentType("application/msexcel");
+        if (workbook != null) {
+        workbook.write(os);
+        log.info("导出成功.....");
+        }
+        } catch (Exception e) {
+        log.info(e.getMessage());
+        } finally {
+        if (os != null) {
+        os.flush();
+        os.close();
+        }
+        }
+        }
+}

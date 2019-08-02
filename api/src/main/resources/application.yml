@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    active: @profileActive@
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    druid:
+      stat-view-servlet:
+        loginUsername: admin
+        loginPassword: 123456
+        url-pattern: /druid/*
+        enabled: true
+    dynamic:
+      primary: master
+      strict: true #设置严格模式,默认false不启动. 启动后再为匹配到指定数据源时候回抛出异常,不启动会使用默认数据源.
+      druid: #以下是全局默认值，可以全局更改
+        initial-size: 10
+        max-active: 50
+        min-idle: 0
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        time-between-log-stats-millis:
+        min-evictable-idle-time-millis: 300000
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        validation-query: SELECT 1 FROM DUAL
+        filters: stat,wall,log4j # 注意这个值和druid原生不一致，默认启动了stat,wall
+        stat:
+          merge-sql: true
+          slow-sql-millis: 5000
+#基础数据库base 必备
+ds_base:
+  base

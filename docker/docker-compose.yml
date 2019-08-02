@@ -1,0 +1,54 @@
+version: '3'
+services:
+  jssaas-service:
+    image: jssaas-service:0.0.1
+    container_name: jssaas
+    build:
+      context: api
+      dockerfile: Dockerfile
+    networks:
+      - jssaas
+    ports:
+      - 9193:9193
+    depends_on:
+      - mysql
+
+  nginx:
+    image: docker.io/nginx:latest
+    container_name: jssaas-nginx-service
+    volumes:
+      - ./nginx/www:/web
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/logs:/log
+    command: nginx -g "daemon off;"
+    networks:
+      - jssaas
+    ports:
+      - 9192:81
+
+  mysql:
+    image: docker.io/mysql:5.7
+    container_name: jssaas-mysql
+    restart: always
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+      --max_allowed_packet=128M;
+    ports:
+      - 3309:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: iswater
+      TZ: Asia/Shanghai
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/logs
+    networks:
+      - jssaas
+
+
+networks:
+  jssaas:
+    external: false

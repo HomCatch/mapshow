@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iswater.map.mapper.UserMapper">
+	<resultMap id="BaseResultMap" type="com.iswater.map.pojos.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="pwd" property="pwd" jdbcType="VARCHAR" />
+		<result column="salt" property="salt" jdbcType="VARCHAR" />
+		<result column="intervals" property="intervals" jdbcType="INTEGER" />
+		<result column="region_id" property="region_id" jdbcType="INTEGER" />	
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, name, pwd, salt, intervals, region_id
+	</sql>
+	
+	<select id="isUserPwdMatch" parameterType="string" resultType="boolean"> 
+   		 select count(id) from user where name = #{name,jdbcType=VARCHAR} and pwd=#{pwd,jdbcType=VARCHAR} 
+	</select> 
+	
+	
+	<select id="getSalt" parameterType="string" resultType="string"> 
+   		 select salt from user where name = #{name,jdbcType=VARCHAR} 
+	</select> 
+	
+	
+	<select id="getUserInfo" resultMap="BaseResultMap" parameterType="string">
+		SELECT
+		<include refid="Base_Column_List" />
+		 from user where name = #{name,jdbcType=VARCHAR} 
+	</select>
+	
+</mapper>

@@ -1,0 +1,140 @@
+#userDesc {
+  .top {
+    width: 100%;
+    display: flex;
+
+    .regUser,
+    .activeUser {
+      display: flex;
+      justify-content: space-between;
+      // align-items: center;
+      flex: 1;
+      background-color: #fff;
+      height: 180px;
+      padding: 20px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+      .left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        flex: 3;
+
+        h3 {
+          font-weight: bold;
+          color: #666;
+        }
+
+        p {
+          font-weight: bold;
+          color: #666;
+          font-size: 36px;
+          line-height: 36px;
+          margin: 20px 0;
+        }
+
+        .lifting {
+          span {
+            color: #999;
+
+            &:first-child {
+              color: #e74c3c;
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+
+      .right {
+        width: 40px;
+        height: 40px;
+        background-color: #dcdefc;
+        border-radius: 50%;
+      }
+    }
+
+    .activeUser {
+      flex: 2;
+      margin-left: 10px;
+
+      .left {
+        flex-direction: row;
+
+        .today,
+        .sevenDays,
+        .thirtyDays {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+      }
+    }
+  }
+
+  .trendMap {
+    margin-top: 10px;
+    background-color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+    .title {
+      display: flex;
+      justify-content: space-between;
+
+      h3 {
+        font-weight: bold;
+        color: #666;
+      }
+
+      .date {
+        display: flex;
+        align-items: center;
+
+        ul {
+          display: flex;
+
+          li {
+            margin-right: 10px;
+
+            a {
+              text-decoration: none;
+              color: #4d83d4;
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .detailData {
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+    .title {
+      display: flex;
+      justify-content: space-between;
+
+      h3 {
+        font-weight: bold;
+        color: #666;
+      }
+
+      a {
+        text-decoration: none;
+        color: #4d83d4;
+        font-size: 14px;
+        &.active{
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

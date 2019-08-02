@@ -1,0 +1,60 @@
+2019-07-01 09:36:25.701  INFO 3668 --- [main] com.xiaohe.mapshow.MapShowApplication    : Starting MapShowApplication on admin-PC with PID 3668 (D:\workspace\mapShow\trunk\api\target\classes started by admin in D:\workspace\mapShow\trunk\api)
+2019-07-01 09:36:25.741  INFO 3668 --- [main] com.xiaohe.mapshow.MapShowApplication    : No active profile set, falling back to default profiles: default
+2019-07-01 09:36:33.437  INFO 3668 --- [main] c.a.d.s.b.a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2019-07-01 09:36:33.977  INFO 3668 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-07-01 09:36:36.988  INFO 3668 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-07-01 09:36:36.988  INFO 3668 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.15
+2019-07-01 09:36:37.018  INFO 3668 --- [localhost-startStop-1] o.a.catalina.core.AprLifecycleListener   : The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_171\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Java\jdk1.8.0_171\bin;C:\Program Files\Java\jdk1.8.0_171\jre\bin;D:\software\apache-maven-3.5.4\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\TortoiseSVN\bin;C:\Program Files\nodejs\;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\Git\cmd;E:\erl10.4\bin;C:\Users\admin\AppData\Roaming\npm;D:\software\VSCode\bin;C:\Users\admin\AppData\Local\BypassRuntm;D:\software\Docker Toolbox;.]
+2019-07-01 09:36:37.248  INFO 3668 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-07-01 09:36:38.068  INFO 3668 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-07-01 09:36:38.278  INFO 3668 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.2.17.Final}
+2019-07-01 09:36:38.288  INFO 3668 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-07-01 09:36:38.388  INFO 3668 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-07-01 09:36:40.628  INFO 3668 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-07-01 09:36:43.509  INFO 3668 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2019-07-01 09:36:43.519  INFO 3668 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2019-07-01 09:36:43.539  INFO 3668 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.2.1 created.
+2019-07-01 09:36:43.539  INFO 3668 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2019-07-01 09:36:43.539  INFO 3668 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.2.1) 'schedulerFactoryBean' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2019-07-01 09:36:43.539  INFO 3668 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'schedulerFactoryBean' initialized from an externally provided properties instance.
+2019-07-01 09:36:43.539  INFO 3668 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.2.1
+2019-07-01 09:36:43.539  INFO 3668 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: com.xiaohe.mapshow.config.bean.MyJobFactory@c85486
+2019-07-01 09:36:47.579  WARN 3668 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2019-07-01 09:36:48.859  INFO 3668 --- [main] org.quartz.core.QuartzScheduler          : Scheduler schedulerFactoryBean_$_NON_CLUSTERED started.
+2019-07-01 09:36:48.909  INFO 3668 --- [main] org.quartz.core.QuartzScheduler          : Scheduler schedulerFactoryBean_$_NON_CLUSTERED started.
+2019-07-01 09:36:48.909  INFO 3668 --- [main] .m.c.b.ApplicationStartQuartzJobListener : 调度任务已经启动...
+2019-07-01 09:36:48.969  INFO 3668 --- [main] com.xiaohe.mapshow.MapShowApplication    : Started MapShowApplication in 24.118 seconds (JVM running for 28.0)
+2019-07-01 09:44:13.203  INFO 3668 --- [http-nio-9193-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2019-07-01 09:44:13.316  INFO 3668 --- [http-nio-9193-exec-1] a.s.s.m.AbstractValidatingSessionManager : Enabling session validation scheduler...
+2019-07-01 09:44:27.896  INFO 3668 --- [http-nio-9193-exec-2] c.x.m.config.aspect.LoginLogAspect       : 登录失败
+2019-07-01 09:44:28.328 ERROR 3668 --- [MyAsync-1] c.xiaohe.mapshow.config.async.AsyncTask  : 获取淘宝地理位置API出错，连接超时！
+2019-07-01 09:44:28.633  INFO 3668 --- [MyAsync-1] c.xiaohe.mapshow.config.async.AsyncTask  : +++++++++++++++++++++  message = {"id":1275,"userName":"admin","operateType":1,"status":0,"ip":"183.14.28.121","userAgent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36","createTime":"Jul 1, 2019 9:44:27 AM"}
+2019-07-01 09:44:28.634  INFO 3668 --- [MyAsync-1] c.xiaohe.mapshow.config.async.AsyncTask  : 记录登陆日志......
+2019-07-01 09:44:37.935  INFO 3668 --- [http-nio-9193-exec-4] c.x.m.config.aspect.LoginLogAspect       : 登录失败
+2019-07-01 09:44:38.313 ERROR 3668 --- [MyAsync-2] c.xiaohe.mapshow.config.async.AsyncTask  : 获取淘宝地理位置API出错，连接超时！
+2019-07-01 09:44:38.475  INFO 3668 --- [MyAsync-2] c.xiaohe.mapshow.config.async.AsyncTask  : +++++++++++++++++++++  message = {"id":1276,"userName":"admin","operateType":1,"status":0,"ip":"183.14.28.121","userAgent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36","createTime":"Jul 1, 2019 9:44:37 AM"}
+2019-07-01 09:44:38.475  INFO 3668 --- [MyAsync-2] c.xiaohe.mapshow.config.async.AsyncTask  : 记录登陆日志......
+2019-07-01 09:44:51.048  INFO 3668 --- [http-nio-9193-exec-6] c.x.m.config.aspect.LoginLogAspect       : 登录成功
+2019-07-01 09:44:51.401  INFO 3668 --- [MyAsync-1] c.xiaohe.mapshow.config.async.AsyncTask  : +++++++++++++++++++++  message = {"id":1277,"userName":"xiaohe","operateType":1,"status":1,"ip":"183.14.28.121","userAgent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36","createTime":"Jul 1, 2019 9:44:51 AM","city":"广东-深圳"}
+2019-07-01 09:44:51.402  INFO 3668 --- [MyAsync-1] c.xiaohe.mapshow.config.async.AsyncTask  : 记录登陆日志......
+2019-07-01 09:44:51.509  INFO 3668 --- [http-nio-9193-exec-8] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2019-07-01 09:56:54.576  WARN 3668 --- [http-nio-9193-exec-9] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 1146, SQLState: 42S02
+2019-07-01 09:56:54.576 ERROR 3668 --- [http-nio-9193-exec-9] o.h.engine.jdbc.spi.SqlExceptionHelper   : Table 'js_saas.change_list' doesn't exist
+2019-07-01 09:56:54.742 ERROR 3668 --- [http-nio-9193-exec-9] c.x.m.m.c.c.ChangeListController         : could not extract ResultSet; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+2019-07-01 09:57:25.977  INFO 3668 --- [MyAsync-2] c.xiaohe.mapshow.config.async.AsyncTask  : +++++++++++++++++++++  message = {"id":4195,"userName":"xiaohe","operateInfo":"角色列表","reqUrl":"/sys/role/list","reqType":"GET","reqParam":"{\"limit\":\"10\",\"page\":\"1\"}","reqTime":612,"status":1,"ip":"183.14.28.121","userAgent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36","createTime":"Jul 1, 2019 9:57:25 AM"}
+2019-07-01 09:57:25.978  INFO 3668 --- [MyAsync-2] c.xiaohe.mapshow.config.async.AsyncTask  : 保存操作日志......
+2019-07-01 09:57:27.270  INFO 3668 --- [MyAsync-1] c.xiaohe.mapshow.config.async.AsyncTask  : +++++++++++++++++++++  message = {"id":4196,"userName":"xiaohe","operateInfo":"所有用户列表","reqUrl":"/sys/user/list","reqType":"GET","reqParam":"{\"limit\":\"10\",\"page\":\"1\"}","reqTime":542,"status":1,"ip":"183.14.28.121","userAgent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36","createTime":"Jul 1, 2019 9:57:27 AM"}
+2019-07-01 09:57:27.270  INFO 3668 --- [MyAsync-1] c.xiaohe.mapshow.config.async.AsyncTask  : 保存操作日志......
+2019-07-01 09:58:29.800  INFO 3668 --- [MyAsync-2] c.xiaohe.mapshow.config.async.AsyncTask  : +++++++++++++++++++++  message = {"id":4197,"userName":"xiaohe","operateInfo":"角色列表","reqUrl":"/sys/role/list","reqType":"GET","reqParam":"{\"limit\":\"10\",\"page\":\"1\"}","reqTime":499,"status":1,"ip":"183.14.28.121","userAgent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36","createTime":"Jul 1, 2019 9:58:29 AM"}
+2019-07-01 09:58:29.800  INFO 3668 --- [MyAsync-2] c.xiaohe.mapshow.config.async.AsyncTask  : 保存操作日志......
+2019-07-01 09:58:31.011  INFO 3668 --- [MyAsync-1] c.xiaohe.mapshow.config.async.AsyncTask  : +++++++++++++++++++++  message = {"id":4198,"userName":"xiaohe","operateInfo":"所有用户列表","reqUrl":"/sys/user/list","reqType":"GET","reqParam":"{\"limit\":\"10\",\"page\":\"1\"}","reqTime":544,"status":1,"ip":"183.14.28.121","userAgent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36","createTime":"Jul 1, 2019 9:58:30 AM"}
+2019-07-01 09:58:31.011  INFO 3668 --- [MyAsync-1] c.xiaohe.mapshow.config.async.AsyncTask  : 保存操作日志......

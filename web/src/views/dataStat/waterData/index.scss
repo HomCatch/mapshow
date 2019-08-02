@@ -1,0 +1,110 @@
+#waterDesc {
+  position: relative;
+  .selector {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    ul {
+      display: flex;
+      margin-left: 30px;
+
+      li {
+        margin-right: 10px;
+
+        a {
+          text-decoration: none;
+          color: #4d83d4;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  .water {
+    display: flex;
+    width: 100%;
+    height: 180px;
+
+    .all,
+    .num,
+    .time {
+      flex: 1;
+      height: 100%;
+      background-color: #727cf5;
+      border-radius: 10px;
+      color: #fff;
+      padding: 30px;
+      box-sizing: border-box;
+      position: relative;
+
+      p {
+        font-size: 30px;
+        line-height: 30px;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      img {
+        position: absolute;
+        right: 30px;
+        top: 30px;
+      }
+    }
+
+    .num {
+      background-color: #fa6987;
+      margin: 0 10px;
+    }
+
+    .time {
+      background-color: #00cf97;
+    }
+  }
+
+  .list {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    flex-wrap: wrap;
+
+    .totalList,
+    .numberList {
+      width: 50%;
+      height: 300px;
+      background-color: #fff;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        font-weight: bold;
+        color: #666;
+      }
+    }
+
+    .numberList {
+      margin-left: 10px;
+      flex: 1;
+    }
+
+    .analyseList {
+      width: 100%;
+      height: 400px;
+      margin-top: 10px;
+      background-color: #fff;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+      padding-bottom: 40px;
+
+      .title {
+        font-weight: bold;
+        color: #666;
+      }
+    }
+  }
+}

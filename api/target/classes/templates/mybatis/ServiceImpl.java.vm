@@ -1,0 +1,40 @@
+package ${package.ServiceImpl};
+
+
+import ${package.Entity.split(".modules.${entity.toLowerCase()}.entity")[0]}.modules.untils.PageUtils;
+import ${package.Entity.split(".modules.${entity.toLowerCase()}.entity")[0]}.modules.untils.query.QueryVo;
+import ${package.Entity.split(".modules.${entity.toLowerCase()}.entity")[0]}.modules.untils.query.QueryToWrapper;
+import ${package.Service}.${entity}Service;
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${entity}Dao;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
+/**
+ *
+ * $!{table.comment} ${entity}ServiceImpl层
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service("${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Service")
+public class ${entity}ServiceImpl extends ServiceImpl<${entity}Dao, ${entity}> implements ${entity}Service {
+
+    @Override
+    public PageUtils queryPage(QueryVo queryVo) {
+        EntityWrapper<${entity}> entityWrapper = new EntityWrapper<>();
+        //查询前预处理
+        QueryToWrapper.convert(entityWrapper, queryVo);
+        Page<${entity}> page = this.selectPage(
+                new Page<>(queryVo.getPage(), queryVo.getPageSize()),
+                entityWrapper
+        );
+        page.setTotal(this.selectCount(null));
+        return new PageUtils(page);
+    }
+
+}

@@ -1,0 +1,119 @@
+#imgDesc {
+  .top {
+    width: 100%;
+    display: flex;
+
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 600px;
+
+      .userGender {
+        height: 33.33%;
+        background-color: #fff;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        padding: 20px 0;
+        box-sizing: border-box;
+
+        .man,
+        .circle,
+        .woman {
+          flex: 1;
+          height: 100%;
+        }
+
+        .man,
+        .woman {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+
+          .icon{
+            font-weight: bold;
+            color: #666;
+            b{
+              font-weight: bold;
+              color: #666;
+            }
+          }
+
+          p {
+            font-weight: bold;
+            color: #00cf97;
+            font-size: 36px;
+            line-height: 36px;
+          }
+
+          span {
+            color: #00cf97;
+          }
+        }
+      }
+
+      .userAge {
+        padding: 20px;
+        box-sizing: border-box;
+        height: 66.67%;
+        margin-top: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+        h3 {
+          color: #666;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .right {
+      flex: 1;
+      background-color: #fff;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      margin-left: 10px;
+      padding: 20px;
+      box-sizing: border-box;
+      height: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .userEnd {
+        height: 50%;
+
+        h3 {
+          color: #666;
+          font-weight: bold;
+        }
+      }
+
+    }
+  }
+
+  .area {
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+    h3 {
+      font-weight: bold;
+      color: #666;
+    }
+
+    .areaData{
+      display: flex;
+      height: 600px;
+      .map,
+      .list{
+        flex: 1;
+        height: 100%;
+      }
+    }
+  }
+}

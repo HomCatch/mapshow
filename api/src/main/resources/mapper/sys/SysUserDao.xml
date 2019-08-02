@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xiaohe.mapshow.modules.sys.dao.SysUserDao">
+
+    <!-- 查询用户的所有权限 -->
+    <select id="queryAllPerms" resultType="string">
+		select m.perms from sys_user_role ur 
+			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id 
+			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id 
+		where ur.user_id = #{userId}
+	</select>
+
+    <!-- 查询用户的所有菜单ID -->
+    <select id="queryAllMenuId" resultType="long">
+		select distinct rm.menu_id from sys_user_role ur 
+			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id 
+		where ur.user_id = #{userId}
+	</select>
+
+
+    <select id="findByUsername" resultType="com.xiaohe.mapshow.modules.sys.entity.SysUserEntity">
+		select * from sys_user where username = #{username}
+	</select>
+
+	<!-- 查询部门ID对应的用户名 -->
+	<select id="queryAllSubUserName" resultType="String">
+		SELECT s.username FROM `sys_user` s
+			where dept_id in
+		<foreach item="deptId" collection="array" open="(" separator="," close=")">
+			#{deptId}
+		</foreach>
+	</select>
+	<!-- 查询部门ID对应的用户ID -->
+	<select id="queryAllSubUserId" resultType="long">
+		SELECT s.user_id FROM `sys_user` s
+		where dept_id in
+		<foreach item="deptId" collection="array" open="(" separator="," close=")">
+			#{deptId}
+		</foreach>
+	</select>
+    <select id="findUserByDeptIds" resultType="java.lang.Long">
+        SELECT u.user_id FROM sys_user u LEFT JOIN sys_dept d on d.dept_id =u.dept_id
+        where 1=1
+        <if test="list!=null and list.size()>0">
+            and u.dept_id in
+            <foreach item="deptId" collection="list" open="(" separator="," close=")">
+                #{deptId}
+            </foreach>
+        </if>
+    </select>
+	<!-- 更改状态 -->
+	<update id="updateUserStatus" >
+		UPDATE sys_user SET status = #{status} WHERE username = #{username}
+	</update>
+
+	<!-- 保存或更新 -->
+	<insert id="saveOrUpdate" parameterType="com.xiaohe.mapshow.modules.sys.entity.SysUserEntity">
+		<selectKey keyProperty="count" resultType="int" order="BEFORE">
+			SELECT count(*) AS count FROM sys_user WHERE user_id=#{userId}
+		</selectKey>
+		<!-- 如果大于0则更新 -->
+		<if test="count>0">
+			UPDATE
+			sys_user
+			SET
+			username=#{username},
+			password=#{password}
+			WHERE user_id=#{userId}
+		</if>
+		<!-- 如果等于0则保存 -->
+		<if test="count==0">
+			INSERT INTO sys_user(
+			user_id,
+			username,
+			password,
+			dept_id,
+			demo_flag
+			) VALUES (
+			#{userId},#{username},#{password},#{deptId},
+			#{demoFlag}
+			)
+		</if>
+	</insert>
+
+</mapper>

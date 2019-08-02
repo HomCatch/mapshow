@@ -1,0 +1,93 @@
+#setNewPwd {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #566676;
+  color: #333;
+
+  .dialog {
+
+    // position: relative;
+    .line {
+      width: 100%;
+      height: 1px;
+      background-color: #dee2e6;
+      position: absolute;
+      top: 60px;
+      left: 0;
+    }
+
+    p {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 500;
+      padding: 60px;
+      padding-top: 20px;
+    }
+
+    .login {
+      margin-left: 184px;
+      margin-bottom: 40px;
+    }
+  }
+
+  .el-form {
+    margin-top: -100px;
+    width: 450px;
+  }
+
+  .captcha {
+    position: relative;
+
+    img {
+      position: absolute;
+      right: 20px;
+      top: 34px;
+      height: 36px;
+      width: 100px;
+    }
+
+    i.el-icon-refresh {
+      position: absolute;
+      right: 2px;
+      top: 40px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+
+  .user {
+    position: relative;
+
+    button {
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      height: 36px;
+      width: 100px;
+    }
+  }
+}
+
+.verifiCode {
+  position: relative;
+
+  .senSms {
+    position: absolute;
+    right: 30px;
+    top: 36px;
+    color: #409eff;
+    cursor: pointer;
+  }
+
+  .try {
+    color: #B1B8C0;
+    cursor: auto;
+  }
+}
+
+.senSms {
+  vertical-align: middle;
+}

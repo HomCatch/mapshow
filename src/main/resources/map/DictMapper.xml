@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iswater.map.mapper.DictMapper">
+	<resultMap id="BaseResultMap" type="com.iswater.map.pojos.Dict">
+		<id column="dict_id" property="dictId" jdbcType="INTEGER" />
+		<result column="dict_name" property="dictName" jdbcType="VARCHAR" />
+		<result column="dict_code" property="dictCode" jdbcType="VARCHAR" />
+		<result column="dict_value" property="dictValue" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="dict_desc" property="dictDesc" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		dict_id, dict_name, dict_code, dict_value, update_time, dict_desc
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from dict
+		where dict_id = #{dictId,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from dict
+		where dict_name = #{dictName,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from dict
+		where dict_code = #{dictCode,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from dict
+		where dict_id = #{dictId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.iswater.map.pojos.Dict">
+		insert into dict (dict_name, dict_code,
+		dict_value, update_time, dict_desc
+		)
+		values (#{dictName,jdbcType=VARCHAR}, #{dictCode,jdbcType=VARCHAR},
+		#{dictValue,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{dictDesc,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.iswater.map.pojos.Dict">
+		insert into dict
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="dictName != null">
+				dict_name,
+			</if>
+			<if test="dictCode != null">
+				dict_code,
+			</if>
+			<if test="dictValue != null">
+				dict_value,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="dictDesc != null">
+				dict_desc,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="dictName != null">
+				#{dictName,jdbcType=VARCHAR},
+			</if>
+			<if test="dictCode != null">
+				#{dictCode,jdbcType=VARCHAR},
+			</if>
+			<if test="dictValue != null">
+				#{dictValue,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="dictDesc != null">
+				#{dictDesc,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.iswater.map.pojos.Dict">
+		update dict
+		<set>
+			<if test="dictName != null">
+				dict_name = #{dictName,jdbcType=VARCHAR},
+			</if>
+			<if test="dictCode != null">
+				dict_code = #{dictCode,jdbcType=VARCHAR},
+			</if>
+			<if test="dictValue != null">
+				dict_value = #{dictValue,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="dictDesc != null">
+				dict_desc = #{dictDesc,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where dict_id = #{dictId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.iswater.map.pojos.Dict">
+		update dict
+		set dict_name = #{dictName,jdbcType=VARCHAR},
+		dict_code = #{dictCode,jdbcType=VARCHAR},
+		dict_value = #{dictValue,jdbcType=VARCHAR},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		dict_desc = #{dictDesc,jdbcType=VARCHAR}
+		where dict_id = #{dictId,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xiaohe.mapshow.modules.sys.dao.SysUserRoleDao">
+
+    <select id="queryRoleIdList" resultType="long">
+		select role_id from sys_user_role where user_id = #{value}
+	</select>
+
+    <delete id="deleteBatch">
+        delete from sys_user_role where role_id in
+        <foreach item="roleId" collection="array" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+    <!-- 保存或更新 -->
+    <insert id="saveOrUpdate" parameterType="com.xiaohe.mapshow.modules.sys.entity.SysUserRoleEntity">
+        <selectKey keyProperty="count" resultType="int" order="BEFORE">
+            SELECT count(*) AS count FROM sys_user_role WHERE user_id=#{userId}
+        </selectKey>
+        <!-- 如果大于0则更新 -->
+        <if test="count>0">
+            UPDATE
+            sys_user_role
+            SET
+            role_id=#{roleId}
+            WHERE user_id=#{userId}
+        </if>
+        <!-- 如果等于0则保存 -->
+        <if test="count==0">
+            INSERT INTO sys_user_role(
+            user_id,
+            role_id
+            ) VALUES (
+            #{userId},
+            #{roleId}
+            )
+        </if>
+    </insert>
+</mapper>

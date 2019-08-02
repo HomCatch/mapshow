@@ -1,0 +1,157 @@
+package ${package.Service};
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import ${package.Service}.${entity}Service;
+import ${package.Entity}.${entity};
+import ${package.Entity}.Query${entity};
+import ${package.Entity.split(".entity")[0]}.jpa.${entity}Repository;
+
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
+import java.util.Optional;
+/**
+ * <p>
+ * $!{table.comment} ${entity}服务类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+ 
+@Service
+public class ${entity}ServiceImpl implements ${entity}Service{
+
+    @Autowired
+  	private ${entity}Repository ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Repository;
+    
+    /**
+	 * 保存对象
+	 * 
+	 * @param  ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)} 对象
+	 * 持久对象，或者对象集合
+	 */
+	@Override 
+    public ${entity} save(${entity} ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}) {
+     return   ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Repository.save(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)});
+    }
+
+    /**
+	 * 通过id集合删除对象
+	 * 
+	 * @param ids
+   	 */
+   	@Override 
+    public void deleteInBatch(List<Integer> ids) {
+       ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Repository.deleteInBatch(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Repository.findAll(ids));
+    }
+    
+    /**
+	 * 通过id判断是否存在
+	 * 
+	 * @param id
+   	 */
+   	@Override
+    public boolean exists(Integer id) {
+      return ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Repository.exists(id);
+    } 
+    
+    /**
+	 * 返回可用实体的数量
+	 * 
+	 */
+	@Override 
+    public long count() {
+      return ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Repository.count();
+    } 
+        
+   	/**
+	 * 通过id查询
+	 * 
+	 * @param id id
+	 * @return ${entity}对象        
+	 */
+	@Override
+    public ${entity} findById(Integer id) {
+    	return ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Repository.findOne(id);
+     }
+
+	/**
+	 * 分页查询
+	 * id处字符串为需要排序的字段，可以传多个，比如 "id","createTime",...
+	 * @param page  页面
+	 * @param pageSize   页面大小
+	 * @return Page<${entity}>对象       
+	 *	
+	 */
+	@Override
+ 	public Page<${entity}> findAll(int page, int pageSize) {
+        Pageable pageable =  new PageRequest(page, pageSize, Sort.Direction.DESC, "id");
+        return ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Repository.findAll(pageable);
+    }
+
+	#set($object="query${entity}")
+    @Override
+    public Page<${entity}> findAll(int page, int pageSize, Query${entity} query${entity}) {
+        //过滤
+        Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.DESC, "id");
+        //查询条件构造
+        Specification<${entity}> spec = new Specification<${entity}>() {
+            @Override
+            public Predicate toPredicate(Root<${entity}> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate predicate = cb.conjunction();
+				#if(!${entityLombokModel})
+                    #set($getprefix="get")
+                    #set($Integer="Integer")
+                    #set($Long="Long")
+                    #set($Date="Dtae")
+                    #set($String="String")
+                    #foreach($field in ${table.fields})
+                        #if(!${field.keyIdentityFlag})
+                            #if(${field.propertyType}==$Integer || ${field.propertyType}==$Long)
+                                if ($object.${getprefix}${field.capitalName}()!=null) {
+                                predicate.getExpressions().add(cb.equal(root.get("${field.propertyName}").as(${field.propertyType}.class), $object.${getprefix}${field.capitalName}()));
+                            }
+
+                            #elseif(${field.propertyType}==$String)
+                                if (StringUtils.isNotBlank($object.${getprefix}${field.capitalName}())) {
+                                predicate.getExpressions().add(cb.like(root.get("${field.propertyName}").as(${field.propertyType}.class), "%"+$object.${getprefix}${field.capitalName}()+"%"));
+                            }
+                            #elseif(${field.propertyName}=="createTime")
+                                if (StringUtils.isNotBlank($object.${getprefix}StartTime())) {
+                                    predicate.getExpressions().add(cb.greaterThanOrEqualTo(root.get("createTime").as(String.class), $object.${getprefix}StartTime()));
+                                }
+                                if (StringUtils.isNotBlank($object.${getprefix}EndTime())) {
+                                    predicate.getExpressions().add(cb.lessThanOrEqualTo(root.get("createTime").as(String.class), $object.${getprefix}EndTime()));
+                                }
+                            #end
+                            #end
+                    #end
+					#end
+                return predicate;
+            }
+
+        };
+        return ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Repository.findAll(spec, pageable);
+    }
+/**
+* 根据Id查询list
+* @param ids id集合
+* @return list
+*/
+    @Override
+    public List<${entity}> findAllById(List<Integer> ids) {
+        return ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}Repository.findAllById(ids);
+    }
+}
+
+

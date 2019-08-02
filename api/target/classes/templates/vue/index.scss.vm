@@ -1,0 +1,2 @@
+.${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}{
+}

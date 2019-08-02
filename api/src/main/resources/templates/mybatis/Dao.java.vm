@@ -1,0 +1,16 @@
+package ${package.Mapper};
+
+import ${package.Entity}.${entity};
+
+import com.baomidou.mybatisplus.mapper.BaseMapper;
+
+/**
+ *
+ * $!{table.comment} ${entity}Dao层
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+public interface ${entity}Dao extends BaseMapper<${entity}> {
+
+}

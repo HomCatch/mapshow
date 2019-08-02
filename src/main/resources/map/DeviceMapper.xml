@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iswater.map.mapper.DeviceMapper">
+	<resultMap id="BaseResultMap" type="com.iswater.map.pojos.Device">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+		<result column="device_name" property="deviceName" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="tds" property="tds" jdbcType="INTEGER" />
+		<result column="ph" property="ph" jdbcType="REAL" />
+		<result column="color" property="color" jdbcType="REAL" />
+		<result column="trt" property="trt" jdbcType="REAL" />
+		<result column="tbdt" property="tbdt" jdbcType="REAL" />
+		<result column="purify_tds" property="purifyTds" jdbcType="INTEGER" />
+		<result column="purify_ph" property="purifyPh" jdbcType="REAL" />
+		<result column="purify_color" property="purifyColor" jdbcType="REAL" />
+		<result column="purify_trt" property="purifyTrt" jdbcType="REAL" />
+		<result column="purify_tbdt" property="purifyTbdt" jdbcType="REAL" />
+		<result column="amount" property="amount" jdbcType="REAL" />
+		
+		<result column="general_in_sd" property="generalInSd" jdbcType="REAL" />
+		<result column="general_in_zd" property="generalInZd" jdbcType="REAL" />
+		<result column="general_in_tds" property="generalInTds" jdbcType="INTEGER" />
+		<result column="has_amount_probe" property="hasAmountProbe" jdbcType="INTEGER" />
+		
+		
+		<result column="special" property="special" jdbcType="INTEGER" />
+		
+		<result column="purify_amount" property="purifyAmount" jdbcType="REAL" />
+		<result column="device_x" property="deviceX" jdbcType="DECIMAL" />
+		<result column="device_y" property="deviceY" jdbcType="DECIMAL" />
+		<result column="device_desc" property="deviceDesc" jdbcType="VARCHAR" />
+		<result column="region_id" property="regionId" jdbcType="INTEGER" />
+		<result column="binded_user_id" property="BindedUserId" jdbcType="INTEGER"/>
+		<result column="status" property="status" jdbcType="INTEGER"/>
+		<result column="run_state" property="runState" jdbcType="INTEGER"/>
+		<result column="data_source" property="dataSource" jdbcType="INTEGER"/>
+		<result column="record_interval" property="recordInterval" jdbcType="INTEGER"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, general_in_sd, general_in_zd, general_in_tds, has_amount_probe, special, device_id, device_name, 
+		update_time, tds, ph, color, trt, tbdt, purify_tds, purify_ph, purify_color, purify_trt, purify_tbdt, 
+		amount,purify_amount, device_x, device_y, device_desc, region_id, binded_user_id, run_state, 
+		record_interval, remark, data_source
+	</sql>
+	<sql id="Base_Column_List_d">
+		d.id, d.device_id, d.device_name, d.update_time, d.tds, d.ph, d.color, d.trt, d.tbdt, d.purify_tds, 
+		d.purify_ph, d.purify_color, d.purify_trt, d.purify_tbdt, d.amount,d.purify_amount,d.device_x, 
+		d.device_y, d.device_desc, d.region_id, d.run_state, d.record_interval, d.remark, d.data_source
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from device
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<sql id="sql_count">
+		SELECT COUNT(1)
+	</sql>
+	
+	<sql id="sql_where">
+		FROM device WHERE 1=1
+		<if test="binded_user_id != null">
+			AND `binded_user_id` = #{binded_user_id,jdbcType=INTEGER}
+		</if>
+		ORDER BY id DESC
+	</sql>
+	
+	<sql id="sql_select">
+		SELECT *
+	</sql>
+	
+	<sql id="sql_limit">
+		LIMIT #{startrow,jdbcType=INTEGER},#{pagesize,jdbcType=INTEGER}
+	</sql>
+	
+	<select id="selectPageCount" resultType="java.lang.Integer" parameterType="com.iswater.common.vo.DeviceMngVO">
+		<include refid="sql_count" />
+		<include refid="sql_where" />
+	</select>
+	
+	
+	<select id="selectPage" resultMap="BaseResultMap" parameterType="com.iswater.common.vo.DeviceMngVO">
+		<include refid="sql_select" />
+		<include refid="sql_where" />
+		<include refid="sql_limit" />
+	</select>
+	
+	<select id="selectBreakDevPageCount" resultType="java.lang.Integer" parameterType="com.iswater.common.vo.DeviceMngVO">
+		SELECT COUNT(1)
+		FROM device WHERE 1=1
+		<if test="binded_user_id != null">
+			AND binded_user_id = #{binded_user_id,jdbcType=INTEGER} AND run_state = #{run_state,jdbcType=INTEGER}
+		</if>
+		ORDER BY id DESC
+	</select>
+	
+	<select id="selectBreakDevPage" resultMap="BaseResultMap" parameterType="com.iswater.common.vo.DeviceMngVO">
+		SELECT *
+		FROM device WHERE 1=1
+		<if test="binded_user_id != null">
+			AND binded_user_id = #{binded_user_id,jdbcType=INTEGER} AND run_state = #{run_state,jdbcType=INTEGER}
+		</if>
+		ORDER BY id DESC
+	</select>
+	
+	<select id="selectFilterDevPageCount" resultType="java.lang.Integer" parameterType="com.iswater.common.vo.DeviceMngVO">
+		SELECT COUNT(1) FROM device a LEFT JOIN filter_plan b ON a.device_id = b.device_id 
+		WHERE a.binded_user_id = #{binded_user_id} AND ((to_days(b.next_time) - to_days(NOW())) &lt;= 7)
+		ORDER BY a.id DESC
+	</select>
+	
+	<select id="selectFilterDevPage" resultMap="BaseResultMap" parameterType="com.iswater.common.vo.DeviceMngVO">
+		SELECT * FROM device a LEFT JOIN filter_plan b ON a.device_id = b.device_id 
+		WHERE a.binded_user_id = #{binded_user_id} AND ((to_days(b.next_time) - to_days(NOW())) &lt;= 7)
+		ORDER BY a.id DESC
+	</select>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+	</select>
+
+	
+	<select id="selectAllMng" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d where status = 0
+	</select>
+	
+		
+	<select id="selectByRegionId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+		WHERE d.region_id = #{0} ORDER BY region_id
+	</select>
+	
+	<select id="selectMngDeviceByRegionId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+		WHERE d.region_id = #{region_id} and d.status = 0 ORDER BY update_time desc limit 0, ${size}
+	</select>
+	
+	
+	<select id="selectByRegionAndUser" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+		WHERE d.region_id = #{region_id} and d.binded_user_id = #{binded_user_id} and d.status =#{status} ORDER BY update_time desc
+	</select>
+	
+	<select id="selectByUserAndStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+		WHERE d.binded_user_id = #{binded_user_id} and d.status =#{status} ORDER BY update_time desc
+	</select>
+	
+	<select id="selectByUserAndRunStateAndStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+		WHERE d.binded_user_id = #{binded_user_id} and d.status =#{status} and d.run_state =#{run_state} ORDER BY update_time desc
+	</select>
+	
+	<select id="selectFilterReplace" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT * FROM device a LEFT JOIN filter_plan b ON a.device_id = b.device_id 
+		WHERE a.binded_user_id = #{binded_user_id} AND ((to_days(b.next_time) - to_days(NOW())) &lt;= 7)
+	</select>
+	
+	<select id="selectByUser" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+		WHERE d.binded_user_id = #{binded_user_id} ORDER BY update_time desc
+	</select>
+	
+	<select id="selectByUserAndRunState" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+		WHERE d.binded_user_id = #{binded_user_id} and d.run_state =#{run_state} ORDER BY update_time desc
+	</select>
+
+	<select id="selectByRegionName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List_d" />
+		FROM device d
+		LEFT JOIN region r ON r.region_id = d.region_id
+		WHERE r.region_name LIKE CONCAT('%',#{regionName},'%' )
+	</select>
+
+	<select id="selectCountByRegionId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM device
+		WHERE region_id = #{regionId}
+	</select>
+
+	<select id="selectSumByRegionId" resultMap="BaseResultMap" parameterType="hashmap">
+		SELECT SUM(tds)/#{count} tds,SUM(purify_tds)/#{count} purify_tds,SUM(ph)/#{count} ph,SUM(purify_ph)/#{count} purify_ph,
+		ROUND(SUM(color)/#{count},4) color,ROUND(SUM(purify_color)/#{count},4) purify_color,ROUND(SUM(trt)/#{count},4) trt,ROUND(SUM(purify_trt)/#{count},4) purify_trt,
+		ROUND(SUM(tbdt)/#{count},4) tbdt,ROUND(SUM(purify_tbdt)/#{count},4) purify_tbdt,ROUND(SUM(amount)/#{count},4) amount,ROUND(SUM(purify_amount)/#{count},4) purify_amount 
+		FROM device
+		WHERE region_id = #{regionId}
+	</select>
+
+	<select id="selectTop100ByRegionId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device WHERE region_id = #{0} ORDER BY update_time DESC LIMIT 100
+	</select>
+
+	<select id="selectDeviceByPoint" resultMap="BaseResultMap" parameterType="hashmap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device WHERE device_x &gt;= #{xmin} AND device_x &lt;= #{xmax} AND device_y &gt;= #{ymin} AND device_y &lt;= #{ymax}
+		<if test="regionId != null">
+			AND region_id = #{regionId}
+		</if>
+	</select>
+	
+	<select id="selectSumByPoint" resultMap="BaseResultMap" parameterType="hashmap">
+		SELECT SUM(tds)/#{count} tds,SUM(purify_tds)/#{count} purify_tds,SUM(ph)/#{count} ph,SUM(purify_ph)/#{count} purify_ph,
+		ROUND(SUM(color)/#{count},4) color,ROUND(SUM(purify_color)/#{count},4) purify_color,ROUND(SUM(trt)/#{count},4) trt,ROUND(SUM(purify_trt)/#{count},4) purify_trt,
+		ROUND(SUM(tbdt)/#{count},4) tbdt,ROUND(SUM(purify_tbdt)/#{count},4) purify_tbdt,ROUND(SUM(amount)/#{count},4) amount,ROUND(SUM(purify_amount)/#{count},4) purify_amount 
+		
+		FROM device WHERE device_x &gt;= #{xmin} AND device_x &lt;= #{xmax} AND device_y &gt;= #{ymin} AND device_y &lt;= #{ymax}
+		<if test="regionId != null">
+			AND region_id = #{regionId}
+		</if>
+	</select>
+	
+	
+	<select id="selectByDeviceId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+		WHERE d.device_id = #{deviceId} ORDER BY region_id
+	</select>
+	
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+		WHERE d.id = #{id}
+	</select>
+	
+	
+	<select id="selectByDeviceKey" resultMap="BaseResultMap" >
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM device d
+		WHERE d.id = #{id} ORDER BY region_id
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from device
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<delete id="deleteTop100ByRegionId" parameterType="java.lang.Integer">
+		delete from device
+		WHERE region_id = #{0} ORDER BY update_time DESC LIMIT 100
+	</delete>
+
+	<insert id="insert" parameterType="com.iswater.map.pojos.Device">
+		insert into device (device_id, device_name,
+		update_time, tds, ph,
+		color, trt, tbdt, purify_tds,
+		purify_ph, purify_color, purify_trt,
+		purify_tbdt, amount,purify_amount, device_x,
+		device_y, device_desc, region_id, status, run_state, record_interval, remark, data_source
+		)
+		values (#{deviceId,jdbcType=VARCHAR}, #{deviceName,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP}, #{tds,jdbcType=INTEGER}, #{ph,jdbcType=REAL},
+		#{color,jdbcType=REAL}, #{trt,jdbcType=REAL}, #{tbdt,jdbcType=REAL}, #{purifyTds,jdbcType=INTEGER},
+		#{purifyPh,jdbcType=REAL}, #{purifyColor,jdbcType=REAL}, #{purifyTrt,jdbcType=REAL},
+		#{purifyTbdt,jdbcType=REAL}, #{amount,jdbcType=REAL},#{purifyAmount,jdbcType=REAL}, #{deviceX,jdbcType=DECIMAL},
+		#{deviceY,jdbcType=DECIMAL}, #{deviceDesc,jdbcType=VARCHAR}, #{regionId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
+		#{runState,jdbcType=INTEGER}, #{recordInterval,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+		#{dataSource,jdbcType=INTEGER}
+		)
+	</insert>
+	
+	
+	<insert id="insertShortly" parameterType="com.iswater.map.pojos.Device">
+		insert into device
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	
+		    <if test="deviceId != null">
+				device_id,
+			</if>
+		    
+			<if test="deviceName != null">
+				device_name,
+			</if>
+	
+			<if test="regionId != null">
+				region_id,
+			</if>	
+			
+			
+			<if test="status != null">
+				status,
+			</if>
+				
+			<if test="runState != null">
+				run_state,
+			</if>
+			
+			<if test="dataSource != null">
+				data_source,
+			</if>
+			
+			<if test="recordInterval != null">
+				record_interval,
+			</if>
+			
+			<if test="remark != null">
+				remark,
+			</if>
+			
+			<if test="updateTime != null">
+				update_time,
+			</if>	
+					
+			<if test="BindedUserId != null">
+			   	binded_user_id, 
+			</if>	
+			
+			<if test="deviceX != null">
+			   	device_x, 
+			</if>	
+
+			<if test="deviceY != null">
+			   	device_y, 
+			</if>				
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="deviceId != null">
+				#{deviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceName != null">
+				#{deviceName,jdbcType=VARCHAR},
+			</if>
+	
+			<if test="regionId != null">
+				#{regionId,jdbcType=INTEGER},
+			</if>
+			
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>		
+			
+			<if test="runState != null">
+				#{run_state,jdbcType=INTEGER},
+			</if>	
+			
+			<if test="dataSource != null">
+				#{data_source,jdbcType=INTEGER},
+			</if>	
+			
+			<if test="recordInterval != null">
+				#{record_interval,jdbcType=INTEGER},
+			</if>	
+			
+			<if test="recordInterval != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>	
+					
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			
+			<if test="BindedUserId != null">
+				#{BindedUserId,jdbcType=REAL},
+			</if>
+					
+			<if test="deviceX != null">
+			   	#{deviceX,jdbcType=REAL}, 
+			</if>	
+
+			<if test="deviceY != null">
+			   	#{deviceY,jdbcType=TIMESTAMP},
+			</if>				
+			
+		</trim>
+	</insert>
+		
+	
+	
+	<insert id="insertSelective" parameterType="com.iswater.map.pojos.Device">
+		insert into device
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="deviceId != null">
+				device_id,
+			</if>
+			<if test="deviceName != null">
+				device_name,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="tds != null">
+				tds,
+			</if>
+			<if test="ph != null">
+				ph,
+			</if>
+			<if test="color != null">
+				color,
+			</if>
+			<if test="trt != null">
+				trt,
+			</if>
+			<if test="tbdt != null">
+				tbdt,
+			</if>
+			<if test="purifyTds != null">
+				purify_tds,
+			</if>
+			<if test="purifyPh != null">
+				purify_ph,
+			</if>
+			<if test="purifyColor != null">
+				purify_color,
+			</if>
+			<if test="purifyTrt != null">
+				purify_trt,
+			</if>
+			<if test="purifyTbdt != null">
+				purify_tbdt,
+			</if>
+			<if test="amount != null">
+				amount,
+			</if>
+			<if test="purifyAmount != null">
+				purify_amount,
+			</if>
+			<if test="deviceX != null">
+				device_x,
+			</if>
+			<if test="deviceY != null">
+				device_y,
+			</if>
+			<if test="deviceDesc != null">
+				device_desc,
+			</if>
+			<if test="regionId != null">
+				region_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="deviceId != null">
+				#{deviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceName != null">
+				#{deviceName,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tds != null">
+				#{tds,jdbcType=INTEGER},
+			</if>
+			<if test="ph != null">
+				#{ph,jdbcType=REAL},
+			</if>
+			<if test="color != null">
+				#{color,jdbcType=REAL},
+			</if>
+			<if test="trt != null">
+				#{trt,jdbcType=REAL},
+			</if>
+			<if test="tbdt != null">
+				#{tbdt,jdbcType=REAL},
+			</if>
+			<if test="purifyTds != null">
+				#{purifyTds,jdbcType=INTEGER},
+			</if>
+			<if test="purifyPh != null">
+				#{purifyPh,jdbcType=REAL},
+			</if>
+			<if test="purifyColor != null">
+				#{purifyColor,jdbcType=REAL},
+			</if>
+			<if test="purifyTrt != null">
+				#{purifyTrt,jdbcType=REAL},
+			</if>
+			<if test="purifyTbdt != null">
+				#{purifyTbdt,jdbcType=REAL},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=REAL},
+			</if>
+			<if test="purifyAmount != null">
+				#{purifyAmount,jdbcType=REAL},
+			</if>
+			<if test="deviceX != null">
+				#{deviceX,jdbcType=DECIMAL},
+			</if>
+			<if test="deviceY != null">
+				#{deviceY,jdbcType=DECIMAL},
+			</if>
+			<if test="deviceDesc != null">
+				#{deviceDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="regionId != null">
+				#{regionId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateDeviceName" parameterType="com.iswater.map.pojos.Device">
+		update device
+		<set>
+			<if test="deviceName != null">
+				device_name = #{deviceName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>	
+	
+	
+	<update id="updateDeviceMng" parameterType="com.iswater.map.pojos.Device">
+		update device
+		<set>
+			<if test="deviceId != null">
+				device_id = #{deviceId,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="deviceName != null">
+				device_name = #{deviceName,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="deviceX != null">
+				device_x = #{deviceX,jdbcType=DECIMAL},
+			</if>
+			
+			<if test="deviceY != null">
+				device_y = #{deviceY,jdbcType=DECIMAL},
+			</if>
+			
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>	
+	
+	
+	<update id="updateDeviceNameInHistory" parameterType="com.iswater.map.pojos.Device">
+		update history
+		<set>
+			<if test="deviceName != null">
+				device_name = #{deviceName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where device_id = #{deviceId,jdbcType=VARCHAR}
+	</update>	
+	
+	
+	<update id="updateDeviceMngInHistory" >
+		update history
+		<set>
+			<if test="#{deviceId} != null">
+				device_id = #{deviceId,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="#{deviceName} != null">
+				device_name = #{deviceName,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="deviceX != null">
+				device_x = #{deviceX,jdbcType=DECIMAL},
+			</if>
+			
+			<if test="deviceY != null">
+				device_y = #{deviceY,jdbcType=DECIMAL},
+			</if>
+			
+		</set>
+		where device_id = #{oldDeviceId,jdbcType=VARCHAR}
+	</update>		
+	
+	<update id="updateRunState" parameterType="com.iswater.map.pojos.Device">
+		update device
+		<set>
+			<if test="runState != null">
+				run_state = #{runState,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where device_id = #{deviceId,jdbcType=VARCHAR}
+	</update>	
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.iswater.map.pojos.Device">
+		update device
+		<set>
+			<if test="deviceId != null">
+				device_id = #{deviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceName != null">
+				device_name = #{deviceName,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="tds != null">
+				tds = #{tds,jdbcType=INTEGER},
+			</if>
+			<if test="ph != null">
+				ph = #{ph,jdbcType=REAL},
+			</if>
+			<if test="color != null">
+				color = #{color,jdbcType=REAL},
+			</if>
+			<if test="trt != null">
+				trt = #{trt,jdbcType=REAL},
+			</if>
+			<if test="tbdt != null">
+				tbdt = #{tbdt,jdbcType=REAL},
+			</if>
+			<if test="purifyTds != null">
+				purify_tds = #{purifyTds,jdbcType=INTEGER},
+			</if>
+			<if test="purifyPh != null">
+				purify_ph = #{purifyPh,jdbcType=REAL},
+			</if>
+			<if test="purifyColor != null">
+				purify_color = #{purifyColor,jdbcType=REAL},
+			</if>
+			<if test="purifyTrt != null">
+				purify_trt = #{purifyTrt,jdbcType=REAL},
+			</if>
+			<if test="purifyTbdt != null">
+				purify_tbdt = #{purifyTbdt,jdbcType=REAL},
+			</if>
+			<if test="amount != null">
+				amount = #{amount,jdbcType=REAL},
+			</if>
+			<if test="purifyAmount != null">
+				purify_amount = #{purifyAmount,jdbcType=REAL},
+			</if>
+			<if test="deviceX != null">
+				device_x = #{deviceX,jdbcType=DECIMAL},
+			</if>
+			<if test="deviceY != null">
+				device_y = #{deviceY,jdbcType=DECIMAL},
+			</if>
+			<if test="deviceDesc != null">
+				device_desc = #{deviceDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="regionId != null">
+				region_id = #{regionId,jdbcType=INTEGER},
+			</if>
+			
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	
+	<update id="updateByPrimaryKey" parameterType="com.iswater.map.pojos.Device">
+		update device
+		set device_id = #{deviceId,jdbcType=VARCHAR},
+		device_name = #{deviceName,jdbcType=VARCHAR},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		tds = #{tds,jdbcType=INTEGER},
+		ph = #{ph,jdbcType=REAL},
+		color = #{color,jdbcType=REAL},
+		trt = #{trt,jdbcType=REAL},
+		tbdt = #{tbdt,jdbcType=REAL},
+		purify_tds = #{purifyTds,jdbcType=INTEGER},
+		purify_ph = #{purifyPh,jdbcType=REAL},
+		purify_color = #{purifyColor,jdbcType=REAL},
+		purify_trt =
+		#{purifyTrt,jdbcType=REAL},
+		purify_tbdt = #{purifyTbdt,jdbcType=REAL},
+		amount = #{amount,jdbcType=REAL},
+		purify_amount = #{purifyAmount,jdbcType=REAL},
+		device_x = #{deviceX,jdbcType=DECIMAL},
+		device_y = #{deviceY,jdbcType=DECIMAL},
+		device_desc = #{deviceDesc,jdbcType=VARCHAR},
+		region_id = #{regionId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>
